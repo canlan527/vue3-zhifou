@@ -1,85 +1,52 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="container">
+    <ColumnList :list="testData" />
+  </div>
 </template>
+<script lang="ts">
+import { defineComponent } from 'vue';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import ColumnList, { type ColumnProps } from './components/ColumnList.vue';
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+const testData: ColumnProps[] = [
+  {
+    id: 1,
+    title: 'test1的专栏',
+    description: '这是的test1专栏，有一段非常有意思的简介，可以更新一下欧',
+    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
+  },
+  {
+    id: 2,
+    title: 'test2的专栏',
+    description: '这是的test2专栏，有一段非常有意思的简介，可以更新一下欧',
+    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
+  },
+  {
+    id: 3,
+    title: 'test3的专栏',
+    description: '这是的test3专栏，有一段非常有意思的简介，可以更新一下欧',
+  },
+  {
+    id: 4,
+    title: 'test4的专栏',
+    description: '这是的test4专栏，有一段非常有意思的简介，可以更新一下欧',
+    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
   }
+]
 
-  .logo {
-    margin: 0 2rem 0 0;
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    ColumnList
+  },
+  setup() {
+    return {
+      testData
+    }
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+})
+</script>
+<style lang="">
+  
 </style>
