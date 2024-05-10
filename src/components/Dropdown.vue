@@ -1,0 +1,32 @@
+<template>
+  <div class="dropdown">
+    <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">你好，{{ title }}</a>
+    <ul class="dropdown-menu" :style="{ display: 'block' }" v-if="isOpen">
+      <slot></slot>
+    </ul>
+  </div>
+</template>
+<script lang="ts">
+import { ref, defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'Dropdown',
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
+  setup() {
+    const isOpen = ref(false)
+    const toggleOpen = () => {
+      isOpen.value = !isOpen.value
+    }
+    return {
+      isOpen,
+      toggleOpen
+    }
+  }
+})
+</script>
+<style scoped></style>
