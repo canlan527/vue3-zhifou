@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropdownRef">
     <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">你好，{{ title }}</a>
     <ul class="dropdown-menu" :style="{ display: 'block' }" v-if="isOpen">
       <slot></slot>
@@ -7,7 +7,7 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, onMounted, onUnmounted } from 'vue'
 
 export default defineComponent({
   name: 'Dropdown',
@@ -22,9 +22,27 @@ export default defineComponent({
     const toggleOpen = () => {
       isOpen.value = !isOpen.value
     }
+    const dropdownRef = ref<HTMLElement | null>(null)
+    // 点击外部区域关闭下拉菜单
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.value) {
+        if (!dropdownRef.value?.contains(event.target as HTMLElement) && isOpen.value) {
+          isOpen.value = false
+        }
+      }
+    }
+
+    onMounted(() => {
+      document.addEventListener('click', handleClickOutside)
+    })
+    onUnmounted(() => {
+      document.removeEventListener('click', handleClickOutside)
+    })
+
     return {
       isOpen,
-      toggleOpen
+      toggleOpen,
+      dropdownRef,
     }
   }
 })
