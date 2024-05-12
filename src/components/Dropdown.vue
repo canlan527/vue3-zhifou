@@ -7,7 +7,8 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, defineComponent, onMounted, onUnmounted } from 'vue'
+import { ref, defineComponent, computed, watchEffect, watch} from 'vue'
+import useClickOutside from '@/hooks/useClickOutside'
 
 export default defineComponent({
   name: 'Dropdown',
@@ -23,20 +24,19 @@ export default defineComponent({
       isOpen.value = !isOpen.value
     }
     const dropdownRef = ref<HTMLElement | null>(null)
-    // 点击外部区域关闭下拉菜单
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.value) {
-        if (!dropdownRef.value?.contains(event.target as HTMLElement) && isOpen.value) {
-          isOpen.value = false
-        }
+    
+    const { isClickOutside } = useClickOutside(dropdownRef)
+    // 1.Watch
+    // watch(isClickOutside, (value) => {
+    //   if (value) {
+    //     isOpen.value = false
+    //   }
+    // })
+    // 2.watchEffect
+    watchEffect(() => {
+      if(isClickOutside.value) {
+        isOpen.value = false
       }
-    }
-
-    onMounted(() => {
-      document.addEventListener('click', handleClickOutside)
-    })
-    onUnmounted(() => {
-      document.removeEventListener('click', handleClickOutside)
     })
 
     return {
