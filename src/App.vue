@@ -1,14 +1,34 @@
 <template>
   <GlobalHeader :user="userData" />
-  <div class="container"> 
-    <ColumnList :list="testData" />
+  <div class="container">
+    <!-- <ColumnList :list="testData" /> -->
+
+    <form>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
+        <ValidateInput :rules="emailRules" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+          v-model="emailRef.val"
+          @blur="() => validateEmail(emailRef.val)"
+        >
+        <div id="emailHelp" class="form-text">{{ emailRef.message }}</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">密码</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+    </form>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { type ColumnProps } from './components/ColumnList.vue';
 import GlobalHeader, { type UserProps } from './components/GlobalHeader.vue';
+import ValidateInput, { type RulesProp } from './components/ValidateInput.vue';
 
 const testData: ColumnProps[] = [
   {
@@ -36,24 +56,60 @@ const testData: ColumnProps[] = [
   }
 ]
 
-const userData: User = {
+const userData: UserProps = {
   id: 1,
   name: 'canlan',
   isLogin: true
 }
-
 
 export default defineComponent({
   name: 'App',
   components: {
     ColumnList,
     GlobalHeader,
+    ValidateInput,
   },
   setup() {
+    // 表单验证规则
+    const emailRules: RulesProp = [
+      { type: 'required', message: '邮箱不能为空' },
+      { type: 'email', message: '请输入正确的邮箱地址' }
+    ]
+
+    // 表单验证
+    const emailRef = reactive({
+      val: '',
+      error: false,
+      message: ''
+    })
+
+    // 表单验证函数
+    const validateEmail = (email: string) => {
+      // 判断是否为空
+      if(emailRef.val.trim() === '') {
+        emailRef.error = true;
+        emailRef.message = '邮箱不能为空';
+        return false;
+      }
+
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(email)) {
+        emailRef.error = true;
+        emailRef.message = '请输入正确的邮箱地址';
+        return false;
+      }
+      emailRef.error = false;
+      emailRef.message = '';
+      return true;
+    }
+
+
     return {
       testData,
       userData,
-
+      emailRef,
+      validateEmail,
+      emailRules,
     }
   }
 })
