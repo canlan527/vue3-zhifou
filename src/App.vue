@@ -82,12 +82,12 @@ export default defineComponent({
 
     // 表单验证
     const emailRef = reactive({
-      val: '',
+      val: 'jimmy@163.com',
       error: false,
       message: ''
     })
     const passwordRef = reactive({
-      val: '',
+      val: '123456aaa',
       error: false,
       message: ''
     })
@@ -105,7 +105,7 @@ export default defineComponent({
       emailRules,
       passRules,
       formSubmit,
-    }
+    } 
   }
 })
 </script>

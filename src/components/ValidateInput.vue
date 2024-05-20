@@ -6,8 +6,9 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, onMounted } from 'vue'
 import type { PropType } from 'vue'
+import { emitter } from './ValidateForm.vue'
 
 const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 const passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
@@ -40,8 +41,7 @@ export default defineComponent({
       inputRef.val = targetVal
       emit('update:modelValue', targetVal)
     }
-
-
+    
     const validate = (val: string) => {
       if (props.rules) {
         const allPassed = props.rules.every(rule => {
@@ -73,8 +73,14 @@ export default defineComponent({
           return passed
         })
         inputRef.error = !allPassed
+        return allPassed
       }
     }
+
+    onMounted(() => {
+      // 触发emitter监听事件
+      emitter.emit('form-validate-success', inputRef.val)
+    })
 
     return {
       inputRef,

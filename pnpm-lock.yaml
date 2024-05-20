@@ -36,6 +36,9 @@ importers:
       '@vue/tsconfig':
         specifier: ^0.5.1
         version: 0.5.1
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
       npm-run-all2:
         specifier: ^6.1.2
         version: 6.1.2

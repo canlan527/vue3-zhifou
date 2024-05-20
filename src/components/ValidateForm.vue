@@ -12,7 +12,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onUnmounted } from 'vue'
+import mitt from 'mitt'
+
+type Events = {
+  'form-validate-success': string
+}
+
+export const emitter = mitt<Events>()
 
 export default defineComponent({
   name: 'ValidateForm',
@@ -21,6 +28,19 @@ export default defineComponent({
     const handleSubmit = () => {
       emit('submit', true)
     }
+
+    const formValidateSuccess = (val: string) => {
+      // 表单验证成功后执行的逻辑
+      console.log('表单验证成功', val)
+    }
+    // 添加监听事件
+    emitter.on('form-validate-success', formValidateSuccess)
+
+    // 组件销毁时移除监听事件
+    onUnmounted(() => {
+      emitter.off('form-validate-success', formValidateSuccess)
+    })
+
     return {
       handleSubmit, 
     }
