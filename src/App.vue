@@ -3,7 +3,7 @@
   <div class="container">
     <!-- <ColumnList :list="testData" /> -->
 
-    <form>
+    <ValidateForm @submit="formSubmit">
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
         <ValidateInput type="text" :rules="emailRules" v-model="emailRef.val" placeholder="请输入邮箱地址" />
@@ -12,7 +12,10 @@
         <label for="password" class="form-label">密码</label>
         <ValidateInput id="password" type="password" placeholder="请输入密码" :rules="passRules" v-model="passwordRef.val" />
       </div>
-    </form>
+      <template #btn>
+        <button class="btn btn-danger">Submit</button>
+      </template>
+    </ValidateForm>
   </div>
 </template>
 <script lang="ts">
@@ -21,6 +24,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ColumnList, { type ColumnProps } from './components/ColumnList.vue';
 import GlobalHeader, { type UserProps } from './components/GlobalHeader.vue';
 import ValidateInput, { type RulesProp } from './components/ValidateInput.vue';
+import ValidateForm from './components/ValidateForm.vue';
 
 const testData: ColumnProps[] = [
   {
@@ -60,6 +64,7 @@ export default defineComponent({
     ColumnList,
     GlobalHeader,
     ValidateInput,
+    ValidateForm,
   },
   setup() {
     // 表单验证规则
@@ -87,24 +92,8 @@ export default defineComponent({
       message: ''
     })
 
-    // 表单验证函数
-    const validateEmail = (email: string) => {
-      // 判断是否为空
-      if (emailRef.val.trim() === '') {
-        emailRef.error = true;
-        emailRef.message = '邮箱不能为空';
-        return false;
-      }
-
-      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!emailRegex.test(email)) {
-        emailRef.error = true;
-        emailRef.message = '请输入正确的邮箱地址';
-        return false;
-      }
-      emailRef.error = false;
-      emailRef.message = '';
-      return true;
+    const formSubmit = (e: boolean) => {
+      console.log('form submit', e)
     }
 
 
@@ -113,9 +102,9 @@ export default defineComponent({
       userData,
       emailRef,
       passwordRef,
-      validateEmail,
       emailRules,
       passRules,
+      formSubmit,
     }
   }
 })
