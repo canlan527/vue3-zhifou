@@ -1,7 +1,7 @@
 <template>
   <div class="validate-input-container pb-3">
     <input class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs" :value="modelValue"
-      @input="updateValue" @blur="validate(inputRef.val)">
+      @input="updateValue" @blur="validate()">
     <div v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
   </div>
 </template>
@@ -42,10 +42,11 @@ export default defineComponent({
       emit('update:modelValue', targetVal)
     }
     
-    const validate = (val: string) => {
+    const validate = () => {
       if (props.rules) {
         const allPassed = props.rules.every(rule => {
           let passed = true
+          let val = inputRef.val
           switch (rule.type) {
             case 'required':
               passed = val.trim() !== ''
@@ -75,11 +76,12 @@ export default defineComponent({
         inputRef.error = !allPassed
         return allPassed
       }
+      return true
     }
 
     onMounted(() => {
       // 触发emitter监听事件
-      emitter.emit('form-validate-success', inputRef.val)
+      emitter.emit('form-validate-success', validate)
     })
 
     return {

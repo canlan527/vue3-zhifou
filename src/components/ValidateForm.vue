@@ -15,8 +15,11 @@
 import { defineComponent, onUnmounted } from 'vue'
 import mitt from 'mitt'
 
+
+type funcType = () => boolean
+
 type Events = {
-  'form-validate-success': string
+  'form-validate-success': funcType
 }
 
 export const emitter = mitt<Events>()
@@ -25,13 +28,17 @@ export default defineComponent({
   name: 'ValidateForm',
   emits: ['submit'],
   setup(props, { emit}) {
+    let funcArr: funcType[] = []
+
     const handleSubmit = () => {
-      emit('submit', true)
+      // 表单验证
+      const result = funcArr.map(func => func()).every(item => item)
+      
+      emit('submit', result)
     }
 
-    const formValidateSuccess = (val: string) => {
-      // 表单验证成功后执行的逻辑
-      console.log('表单验证成功', val)
+    const formValidateSuccess = (func: funcType) => {
+      funcArr.push(func)
     }
     // 添加监听事件
     emitter.on('form-validate-success', formValidateSuccess)
@@ -39,6 +46,7 @@ export default defineComponent({
     // 组件销毁时移除监听事件
     onUnmounted(() => {
       emitter.off('form-validate-success', formValidateSuccess)
+      funcArr = []
     })
 
     return {
