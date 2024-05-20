@@ -6,19 +6,11 @@
     <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
-        <ValidateInput :rules="emailRules" v-model="emailRef.val"/>
+        <ValidateInput type="text" :rules="emailRules" v-model="emailRef.val" placeholder="请输入邮箱地址" />
       </div>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-          v-model="emailRef.val"
-          @blur="() => validateEmail(emailRef.val)"
-        >
-        <div id="emailHelp" class="form-text">{{ emailRef.message }}</div>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">密码</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label for="password" class="form-label">密码</label>
+        <ValidateInput id="password" type="password" placeholder="请输入密码" :rules="passRules" v-model="passwordRef.val" />
       </div>
     </form>
   </div>
@@ -75,10 +67,22 @@ export default defineComponent({
       { type: 'required', message: '邮箱不能为空' },
       { type: 'email', message: '请输入正确的邮箱地址' }
     ]
+    const passRules: RulesProp = [
+      { type: 'required', message: '密码不能为空' },
+      { type: 'minLength', value: 6, message: '密码长度不能少于6位' },
+      { type: 'maxLength', value: 16, message: '密码长度不能超过16位' },
+      { type: 'password', message: '密码必须包含字母、数字' },
+
+    ]
 
     // 表单验证
     const emailRef = reactive({
-      val: 'halo',
+      val: '',
+      error: false,
+      message: ''
+    })
+    const passwordRef = reactive({
+      val: '',
       error: false,
       message: ''
     })
@@ -86,7 +90,7 @@ export default defineComponent({
     // 表单验证函数
     const validateEmail = (email: string) => {
       // 判断是否为空
-      if(emailRef.val.trim() === '') {
+      if (emailRef.val.trim() === '') {
         emailRef.error = true;
         emailRef.message = '邮箱不能为空';
         return false;
@@ -108,8 +112,10 @@ export default defineComponent({
       testData,
       userData,
       emailRef,
+      passwordRef,
       validateEmail,
       emailRules,
+      passRules,
     }
   }
 })
