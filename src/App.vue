@@ -6,7 +6,7 @@
     <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
-        <ValidateInput :rules="emailRules" />
+        <ValidateInput :rules="emailRules" v-model="emailRef.val"/>
       </div>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">邮箱地址</label>
@@ -78,7 +78,7 @@ export default defineComponent({
 
     // 表单验证
     const emailRef = reactive({
-      val: '',
+      val: 'halo',
       error: false,
       message: ''
     })

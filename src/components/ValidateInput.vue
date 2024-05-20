@@ -1,6 +1,7 @@
 <template>
   <div class="validate-input-container pb-3">
-    <input type="text" class="form-control" :class="{ 'is-invalid': inputRef.error }" v-model="inputRef.val" @blur="validate(inputRef.val)">
+    <input type="text" class="form-control" :class="{ 'is-invalid': inputRef.error }" 
+      :value="modelValue" @input="updateValue" @blur="validate(inputRef.val)">
     <div v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
   </div>
 </template>
@@ -20,14 +21,22 @@ export type RulesProp = RuleProp[]
 export default defineComponent({
   name: 'ValidateInput',
   props: {
-    rules: Array as PropType<RulesProp>
+    rules: Array as PropType<RulesProp>,
+    modelValue: String,
   },
-  setup(props) {
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
     const inputRef = reactive({
-      val: '',
+      val: props.modelValue || '',
       error: false,
       message: ''
     })
+
+    const updateValue = (e: Event) => {
+      const targetVal = (e.target as HTMLInputElement).value
+      inputRef.val = targetVal
+      emit('update:modelValue', targetVal)
+    }
 
 
     const validate = (val: string) => {
@@ -54,7 +63,8 @@ export default defineComponent({
 
     return {
       inputRef,
-      validate
+      validate,
+      updateValue,
     }
   }
 })
