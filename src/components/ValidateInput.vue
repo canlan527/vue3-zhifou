@@ -41,7 +41,6 @@ export default defineComponent({
     const updateValue = (e: Event) => {
       const targetVal = (e.target as HTMLInputElement).value
       inputRef.val = targetVal
-      console.log(inputRef.val)
       emit('update:modelValue', targetVal)
     }
     
@@ -79,7 +78,6 @@ export default defineComponent({
           return passed
         })
         inputRef.error = !allPassed
-        console.log(allPassed)
         return allPassed
       }
       return true

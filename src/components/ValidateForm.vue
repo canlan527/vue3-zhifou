@@ -41,7 +41,7 @@ export default defineComponent({
       
       if(!flag) { // 表单验证失败
         // 执行清空操作
-        console.log('表单验证失败,  清空表单项')
+        // console.log('表单验证失败,  清空表单项')
         clearFuncArr.forEach(func => {
           console.log(func)
           func()
