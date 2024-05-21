@@ -2,6 +2,7 @@
   <div class="validate-input-container pb-3">
     <input class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs" :value="modelValue"
       @input="updateValue" @blur="validate()">
+     val: {{ inputRef.val }} error: {{ (inputRef.error).toString() }} message: {{ inputRef.message }}
     <div v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
   </div>
 </template>
@@ -27,8 +28,8 @@ export default defineComponent({
     rules: Array as PropType<RulesProp>,
     modelValue: String,
   },
-  inheritAttrs: false,
-  emits: ['update:modelValue'],
+  inheritAttrs: false, // 阻止继承父组件的属性
+  emits: ['update:modelValue'], // 注册触发父组件的update:modelValue事件
   setup(props, { emit, attrs }) {
     const inputRef = reactive({
       val: props.modelValue || '',
@@ -36,12 +37,15 @@ export default defineComponent({
       message: ''
     })
 
+    // 监听input值变化
     const updateValue = (e: Event) => {
       const targetVal = (e.target as HTMLInputElement).value
       inputRef.val = targetVal
+      console.log(inputRef.val)
       emit('update:modelValue', targetVal)
     }
     
+    // 验证方法
     const validate = () => {
       if (props.rules) {
         const allPassed = props.rules.every(rule => {
@@ -71,24 +75,34 @@ export default defineComponent({
             default:
               break;
           }
+          
           return passed
         })
         inputRef.error = !allPassed
+        console.log(allPassed)
         return allPassed
       }
       return true
     }
 
+    // 清空input方法
+    const clearInput = () => {
+      inputRef.val = ''
+      inputRef.error = false
+      inputRef.message = ''
+    }
+
     onMounted(() => {
       // 触发emitter监听事件
       emitter.emit('form-validate-success', validate)
+      emitter.emit('clear-input', clearInput)
     })
 
     return {
       inputRef,
       validate,
       updateValue,
-    }
+    } 
   }
 })
 </script>

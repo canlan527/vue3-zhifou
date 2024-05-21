@@ -92,8 +92,14 @@ export default defineComponent({
       message: ''
     })
 
-    const formSubmit = (e: boolean) => {
-      console.log('form submit', e)
+    const formSubmit = (flag: boolean) => {
+      // console.log('form submit', flag)
+      if (!flag) {
+        // 表单验证失败,清空表单项内容
+        emailRef.val = ''
+        passwordRef.val = ''
+      }
+
     }
 
 
