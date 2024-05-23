@@ -6,7 +6,8 @@
           <img :src="item.avatar" :alt="item.title" class="rounded-circle border border-light w-25 my-3">
           <h5 class="card-title">{{ item.title }}</h5>
           <p class="card-text text-left">{{ item.description }}</p>
-          <a href="#" class="btn btn-outline-primary">进入专栏</a>
+          <!-- <router-link :to="{ name: 'column', params: { id: item.id } }" class="btn btn-outline-primary">进入专栏</router-link> -->
+          <router-link :to="`/column/${item.id}`" class="btn btn-outline-primary">进入专栏</router-link>
         </div>
       </div>
     </div>
@@ -14,6 +15,7 @@
 </template>
 <script lang="ts">
 import emptyPic from '@/assets/imgs/column.jpg'
+import router from '@/router'
 import { computed, defineComponent, type PropType } from 'vue'
 
 
