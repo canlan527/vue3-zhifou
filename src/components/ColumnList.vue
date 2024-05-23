@@ -17,14 +17,7 @@
 import emptyPic from '@/assets/imgs/column.jpg'
 import router from '@/router'
 import { computed, defineComponent, type PropType } from 'vue'
-
-
-export interface ColumnProps {
-  id: number
-  title: string
-  avatar?: string
-  description: string
-}
+import type { ColumnProps } from '@/testData'
 
 export default defineComponent({
   name: 'ColumnList',
