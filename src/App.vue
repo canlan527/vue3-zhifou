@@ -15,7 +15,7 @@ import Footer from '@/components/Footer.vue';
 const userData: UserProps = {
   id: 1,
   name: 'canlan',
-  isLogin: false
+  isLogin: true
 }
 
 export default defineComponent({

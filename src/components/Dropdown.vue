@@ -35,6 +35,7 @@ export default defineComponent({
     // 2.watchEffect
     watchEffect(() => {
       if(isClickOutside.value) {
+        console.log(isOpen.value)
         isOpen.value = false
       }
     })

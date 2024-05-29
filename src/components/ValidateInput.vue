@@ -1,8 +1,11 @@
 <template>
   <div class="validate-input-container pb-3">
-    <input class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs" :value="modelValue"
-      @input="updateValue" @blur="validate()">
-     val: {{ inputRef.val }} error: {{ (inputRef.error).toString() }} message: {{ inputRef.message }}
+    <input v-if="tag === 'input'" class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs"
+      :value="modelValue" @input="updateValue" @blur="validate()">
+
+    <textarea v-else class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs" :value="modelValue"
+      @input="updateValue" @blur="validate()" />
+
     <div v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
   </div>
 </template>
@@ -21,12 +24,18 @@ interface RuleProp {
 }
 
 export type RulesProp = RuleProp[]
+// 定义 input 类型： input、textarea
+type TagType = 'input' | 'textarea'
 
 export default defineComponent({
   name: 'ValidateInput',
   props: {
     rules: Array as PropType<RulesProp>,
     modelValue: String,
+    tag: {
+      type: String as PropType<TagType>,
+      default: 'input'
+    }
   },
   inheritAttrs: false, // 阻止继承父组件的属性
   emits: ['update:modelValue'], // 注册触发父组件的update:modelValue事件
@@ -43,7 +52,7 @@ export default defineComponent({
       inputRef.val = targetVal
       emit('update:modelValue', targetVal)
     }
-    
+
     // 验证方法
     const validate = () => {
       if (props.rules) {
@@ -74,7 +83,7 @@ export default defineComponent({
             default:
               break;
           }
-          
+
           return passed
         })
         inputRef.error = !allPassed
@@ -100,7 +109,7 @@ export default defineComponent({
       inputRef,
       validate,
       updateValue,
-    } 
+    }
   }
 })
 </script>
