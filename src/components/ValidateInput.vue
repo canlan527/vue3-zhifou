@@ -6,7 +6,7 @@
     <textarea v-else class="form-control" :class="{ 'is-invalid': inputRef.error }" v-bind="$attrs" :value="modelValue"
       @input="updateValue" @blur="validate()" />
 
-    <div v-if="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
+    <div v-show="inputRef.error" class="invalid-feedback">{{ inputRef.message }}</div>
   </div>
 </template>
 <script lang="ts">
@@ -61,8 +61,10 @@ export default defineComponent({
           let val = inputRef.val
           switch (rule.type) {
             case 'required':
+              console.log('required')
               passed = val.trim() !== ''
               inputRef.message = rule.message
+              console.log(inputRef.message)
               break;
             case 'email':
               passed = emailReg.test(val)
@@ -95,14 +97,15 @@ export default defineComponent({
     // 清空input方法
     const clearInput = () => {
       inputRef.val = ''
-      inputRef.error = false
-      inputRef.message = ''
     }
 
     onMounted(() => {
       // 触发emitter监听事件
       emitter.emit('form-validate-success', validate)
-      emitter.emit('clear-input', clearInput)
+      // 验证失败时触发clearInput方法
+      if(!inputRef.error) {
+        emitter.emit('clear-input', clearInput)
+      }
     })
 
     return {
