@@ -61,10 +61,8 @@ export default defineComponent({
           let val = inputRef.val
           switch (rule.type) {
             case 'required':
-              console.log('required')
               passed = val.trim() !== ''
               inputRef.message = rule.message
-              console.log(inputRef.message)
               break;
             case 'email':
               passed = emailReg.test(val)

@@ -28,12 +28,13 @@
 import { defineComponent, type PropType } from 'vue'
 import Dropdown from './Dropdown.vue'
 import DropdownItem from './DropdownItem.vue'
+import { type UserProps, useUserStore } from '@/stores/user'
 
-export interface UserProps {
-  isLogin: boolean
-  name: string
-  id: number
-}
+// export interface UserProps {
+//   isLogin: boolean
+//   name: string
+//   id: number
+// }
 
 export default defineComponent({
   name: 'GlobalHeader',
@@ -47,9 +48,11 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props) {
+   
     return {
-      // user,
+      
+
     }
   }
 })

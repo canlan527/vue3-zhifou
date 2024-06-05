@@ -1,40 +1,21 @@
 <template>
-  <GlobalHeader :user="userData" />
+  <GlobalHeader :user="user" />
+  {{ user }}
   <div class="container">
     <router-view />
   </div>
   <Footer />
 </template>
-<script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import GlobalHeader, { type UserProps } from './components/GlobalHeader.vue';
+<script setup lang="ts">
+import { defineComponent, reactive, computed, watchEffect, ref } from 'vue';
+import GlobalHeader from './components/GlobalHeader.vue';
 import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Footer from '@/components/Footer.vue';
+import { useUserStore, type UserProps } from '@/stores/user';
+import { storeToRefs } from 'pinia';
 
-const userData: UserProps = {
-  id: 1,
-  name: 'canlan',
-  isLogin: true
-}
+const userStore = useUserStore();
+const { user } = storeToRefs(userStore);
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    GlobalHeader,
-    Home,
-    Login,
-    Footer,
-  },
-  setup() {
-    
-
-    return {
-      userData,
-    } 
-  }
-})
 </script>
-<style lang="">
-
-</style>
