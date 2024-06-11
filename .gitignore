@@ -28,3 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# src/service/request/api_keys.ts
+api_keys.ts
