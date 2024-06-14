@@ -3,6 +3,9 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import ColumnDetail from '@/views/ColumnDetail.vue'
 import CreatePost from '@/views/CreatePost.vue'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +18,10 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        redirectAlreadyLogin: true
+      }
     },
     {
       path: '/column/:id',
@@ -25,9 +31,28 @@ const router = createRouter({
     {
       path: '/create',
       name: 'create',
-      component: CreatePost 
+      component: CreatePost,
+      meta: {
+        requiredLogin: true
+      }
     }
   ]
+})
+
+// 
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  const { user } = storeToRefs(userStore)
+  // console.log(userStore.isLogin)
+  if(to.meta.requiredLogin && user.value.isLogin === false) {
+    next('/login')
+  } else if(to.meta.redirectAlreadyLogin && user.value.isLogin) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router
