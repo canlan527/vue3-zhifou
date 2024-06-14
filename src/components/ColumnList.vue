@@ -32,13 +32,15 @@ export default defineComponent({
 
     const columnList = computed(() => {
       return props.list.map((item) => {
-        if(item.avatar.url === '') {
+        if(item.avatar.url) {
+          item.avatar.url = `${item.avatar.url}?x-oss-process=image/resize,m_pad,w_50,h_50`
+        } else {
           item.avatar.url = emptyPic
         }
         return item
       })
     })
-    console.log(props.list)
+    // console.log(props.list)
     return {
       columnList,
     }
@@ -48,7 +50,8 @@ export default defineComponent({
 <style lang="scss" scoped> 
 .card-body {
   img {
-
+    width: 50px;
+    height: 50px;
   }
 }
 </style>
