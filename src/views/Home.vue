@@ -28,8 +28,6 @@ import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia';
 import ColumnList from '@/components/ColumnList.vue';
 import type { IColumnListProps } from '@/service/column/type';
-import { columnData, type ColumnProps } from '@/testData'
-// import { useCounterStore } from '@/stores/counter'
 import { useColumnStore } from '@/stores/column'
 
 export default defineComponent({
@@ -38,38 +36,17 @@ export default defineComponent({
     ColumnList
   },
   setup() {
-    // const counterStore = useCounterStore()
     const columnStore = useColumnStore()
 
-    // 使用 pinia 数据方式一：
-    // const count = computed(() => counterStore.count)
-    // const doubleCount = computed(() => counterStore.doubleCount)  
-
-    // 使用 pinia 数据方式二：
-    // const { count, doubleCount  } = storeToRefs(counterStore)
-
-    // 导出方法
-    // const { increment} = counterStore
-    // const { columnList, fetchColumns } = storeToRefs(columnStore)
     const { fetchColumns } = columnStore
-    // const { columnList } = storeToRefs(columnStore)
     const columnList = computed(() => columnStore.columnList)
 
     onMounted(() => {
        fetchColumns()
     })
 
-    // console.log('columnList', columnList.value)
-
-    // watch(columnList, (newVal) => {
-    //   console.log('columnList changed', newVal)
-    // })
-
     return {
       columnList,
-      // count,
-      // doubleCount,
-      // increment
     }
   }
 })

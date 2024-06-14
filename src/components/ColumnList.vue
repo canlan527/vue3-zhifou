@@ -31,9 +31,11 @@ export default defineComponent({
   setup(props) {
 
     const columnList = computed(() => {
-      return props.list.map((item) => {
+      // list 是引用类型，直接修改会将影响原始数据，因此需要复制一份数据
+      const newList = JSON.parse(JSON.stringify(props.list)) as IColumnItemProps[]
+      return newList.map((item) => {
         if(item.avatar.url) {
-          item.avatar.url = `${item.avatar.url}?x-oss-process=image/resize,m_pad,w_50,h_50`
+          item.avatar.url = `${item.avatar.url}?x-oss-process=image/resize,m_pad,w_100,h_100`
         } else {
           item.avatar.url = emptyPic
         }
