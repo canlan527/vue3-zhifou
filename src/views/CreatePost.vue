@@ -10,7 +10,7 @@
         <label for="form-label">文章内容：</label>
         <validate-input tag="textarea" rows="10" type="text" placeholder="请输入文章内容" />
       </div>
-      <template #submitBtn>
+      <template #btn>
         <button type="submit" class="btn btn-primary btn-lg">发布文章</button>
       </template>
     </validate-form>
