@@ -4,7 +4,7 @@
       <div class="card-body">
         <h4>{{ post.title }}</h4>
         <div class="row my-3 align-items-center">
-          <div v-if="post.image" class="col-3">
+          <div v-if="post.image" class="post-cover col-3">
             <img :src="post.image.url" :alt="post.title" class="rounded-lg w-100">
           </div>
           <p :class="{ 'col-9': post.image.url }">{{ post.excerpt }}</p>
@@ -28,6 +28,12 @@ export default defineComponent({
   }
 })
 </script>
-<style scoped>
-  
+<style lang="scss" scoped>
+.post-cover {
+  max-height: 120px;
+  img {
+    height: 120px;
+    object-fit: cover;
+  }
+}
 </style>

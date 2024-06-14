@@ -2,12 +2,6 @@
   <div class="home-page">
     <section class="py-5 text-center container">
       <div class="row py-lg-5">
-        <!-- <h1>
-          count:  {{ count }}
-          doubleCount:  {{ doubleCount }}
-        </h1> -->
-        <!-- <button class="btn btn-primary my-2" @click="increment">+1</button> -->
-        <!-- <hr> -->
         <div class="col-lg-6 col-md-8 mx-auto">
           <img src="../assets/imgs/callout.svg" alt="">
           <h2>随心写作，自由表达</h2>

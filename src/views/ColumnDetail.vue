@@ -33,8 +33,6 @@ export default defineComponent({
     const columnList = computed(() => columnStore.columnList)
     const currentColumn = columnList.value.find(item => {
       if (item.avatar) {
-        // item.avatar.url 
-        console.log(item.avatar.url)
         item.avatar.url = item.avatar.url
       }
       return item._id === currentId
@@ -55,6 +53,6 @@ export default defineComponent({
   }
 })
 </script>
-<style scoped>
-  
+<style lang="scss" scoped>
+
 </style>
