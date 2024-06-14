@@ -19,6 +19,10 @@
 import { defineComponent, reactive } from 'vue'
 import ValidateInput, { type RulesProp } from '@/components/ValidateInput.vue';
 import ValidateForm from '@/components/ValidateForm.vue';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { login } from '@/service/user/user';
 
 export default defineComponent({
   name: 'Login ',
@@ -27,6 +31,11 @@ export default defineComponent({
     ValidateForm
   },
   setup() {
+    const userStore = useUserStore()
+    const router = useRouter()
+    // store中数据
+    // const { user } = storeToRefs(userStore)
+    // 组件内部数据
     // 表单验证规则
     const emailRules: RulesProp = [
       { type: 'required', message: '邮箱不能为空' },
@@ -39,7 +48,6 @@ export default defineComponent({
       { type: 'password', message: '密码必须包含字母、数字' },
 
     ]
-
     // 表单验证
     const emailRef = reactive({
       val: '',
@@ -52,10 +60,27 @@ export default defineComponent({
       message: ''
     })
 
-    const formSubmit = (e: boolean) => {
-      // console.log('form submit', e)
-      emailRef.val = ''
-      passwordRef.val = ''
+    const formSubmit = async (e: boolean) => {
+      // emailRef.val = ''
+      // passwordRef.val = ''
+      if (e) {
+        // 登录成功后跳转到首页
+        // 方法一：
+        // userStore.isLogin = true
+        // userStore.name = 'canlanshaw'
+        // 方法二：
+        // console.log(user)
+        // user.value.isLogin = true
+        // user.value.name = 'canlanshaw'
+        
+        // 设置islogin为true，在其他页面中可以根据islogin来判断是否登录
+        // 调用接口
+        const res = await login({ email: emailRef.val,  password: passwordRef.val })
+        userStore.user.isLogin = true
+        userStore.user.name = emailRef.val
+        console.log(res)
+        router.push('/')
+      }
     }
 
     return {
