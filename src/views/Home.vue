@@ -6,8 +6,8 @@
           count:  {{ count }}
           doubleCount:  {{ doubleCount }}
         </h1> -->
-        <button class="btn btn-primary my-2" @click="increment">+1</button>
-        <hr>
+        <!-- <button class="btn btn-primary my-2" @click="increment">+1</button> -->
+        <!-- <hr> -->
         <div class="col-lg-6 col-md-8 mx-auto">
           <img src="../assets/imgs/callout.svg" alt="">
           <h2>随心写作，自由表达</h2>
@@ -17,15 +17,20 @@
         </div>
       </div>
     </section>
-    <column-list :list="columnData" />
+    <div v-if="columnList!.length">
+      <column-list :list="columnList" />
+    </div>
+    
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia';
 import ColumnList from '@/components/ColumnList.vue';
+import type { IColumnListProps } from '@/service/column/type';
 import { columnData, type ColumnProps } from '@/testData'
 // import { useCounterStore } from '@/stores/counter'
+import { useColumnStore } from '@/stores/column'
 
 export default defineComponent({
   name: 'Home',
@@ -34,6 +39,7 @@ export default defineComponent({
   },
   setup() {
     // const counterStore = useCounterStore()
+    const columnStore = useColumnStore()
 
     // 使用 pinia 数据方式一：
     // const count = computed(() => counterStore.count)
@@ -44,9 +50,23 @@ export default defineComponent({
 
     // 导出方法
     // const { increment} = counterStore
+    // const { columnList, fetchColumns } = storeToRefs(columnStore)
+    const { fetchColumns } = columnStore
+    // const { columnList } = storeToRefs(columnStore)
+    const columnList = computed(() => columnStore.columnList)
+
+    onMounted(() => {
+       fetchColumns()
+    })
+
+    // console.log('columnList', columnList.value)
+
+    // watch(columnList, (newVal) => {
+    //   console.log('columnList changed', newVal)
+    // })
 
     return {
-      columnData,
+      columnList,
       // count,
       // doubleCount,
       // increment
