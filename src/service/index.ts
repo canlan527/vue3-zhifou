@@ -3,6 +3,7 @@ import type { AxiosRequestHeaders } from "axios";
 import XNRequest from "./request";
 import { BASE_URL, TIMEOUT } from "./request/config";
 import localstorage from "@/utils/storage";
+import { useGlobalStore } from "@/stores/global";
 
 const request = new XNRequest({
   baseURL: BASE_URL,
@@ -16,12 +17,20 @@ const request = new XNRequest({
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      // loading
+      const globalStore = useGlobalStore();
+      const { setLoading } = globalStore;
+      setLoading(true);
       return config;
     },
     requestInterceptorCatch: (error) => {
       return error
     },
     responseInterceptor: (res) => {
+      // loading
+      const globalStore = useGlobalStore();
+      const { setLoading } = globalStore;
+      setLoading(false);
       return res.data
     },
     responseInterceptorCatch: (error) => {
