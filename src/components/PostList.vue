@@ -5,7 +5,7 @@
         <h4>{{ post.title }}</h4>
         <div class="row my-3 align-items-center">
           <div v-if="post.image" class="post-cover col-3">
-            <img :src="post.image.url" :alt="post.title" class="rounded-lg w-100">
+            <img :src="post?.image.url" :alt="post.title" class="rounded-lg w-100">
           </div>
           <p :class="{ 'col-9': post.image.url }">{{ post.excerpt }}</p>
         </div>
