@@ -30,7 +30,10 @@ const request = new XNRequest({
       // loading
       const globalStore = useGlobalStore();
       const { setLoading } = globalStore;
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      },1500)
+
       return res.data
     },
     responseInterceptorCatch: (error) => {

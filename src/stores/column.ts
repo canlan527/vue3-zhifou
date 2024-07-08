@@ -30,7 +30,9 @@ export const useColumnStore = defineStore("column", () => {
   async function fetchColumns(params: any = {}) {
     const { currentPage = 1, pageSize = 6 } = params
     const res = await getColumnList(params)
-    columnList.value = res.data.list
+    if(res.data) {
+      columnList.value = res.data.list
+    }
   }
   // 获取单个专栏详情
   async function fetchColumn(id: string) {

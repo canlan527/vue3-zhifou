@@ -1,6 +1,6 @@
 <template>
   <GlobalHeader :user="user" />
-  <h1 v-if="loading">正在加载中...😁</h1>
+  <Loader v-if="loading" background="rgba(0, 0, 0, 0.8)" />
   <div class="container">
     <router-view />
   </div>
@@ -12,6 +12,7 @@ import GlobalHeader from './components/GlobalHeader.vue';
 import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Footer from '@/components/Footer.vue';
+import Loader from './components/Loader.vue';
 import { useUserStore, type UserProps } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useGlobalStore } from './stores/global';
