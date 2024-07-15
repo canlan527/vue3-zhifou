@@ -22,7 +22,7 @@ import ValidateForm from '@/components/ValidateForm.vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-import { login } from '@/service/user/user';
+// import { login } from '@/service/user/user';
 
 export default defineComponent({
   name: 'Login ',
@@ -45,7 +45,7 @@ export default defineComponent({
       { type: 'required', message: '密码不能为空' },
       { type: 'minLength', value: 6, message: '密码长度不能少于6位' },
       { type: 'maxLength', value: 16, message: '密码长度不能超过16位' },
-      { type: 'password', message: '密码必须包含字母、数字' },
+      // { type: 'password', message: '密码必须包含字母、数字' },
 
     ]
     // 表单验证
@@ -61,25 +61,13 @@ export default defineComponent({
     })
 
     const formSubmit = async (e: boolean) => {
-      // emailRef.val = ''
-      // passwordRef.val = ''
       if (e) {
-        // 登录成功后跳转到首页
-        // 方法一：
-        // userStore.isLogin = true
-        // userStore.name = 'canlanshaw'
-        // 方法二：
-        // console.log(user)
-        // user.value.isLogin = true
-        // user.value.name = 'canlanshaw'
-        
-        // 设置islogin为true，在其他页面中可以根据islogin来判断是否登录
-        // 调用接口
-        const res = await login({ email: emailRef.val,  password: passwordRef.val })
-        userStore.user.isLogin = true
-        userStore.user.name = emailRef.val
-        console.log(res)
-        router.push('/')
+        const { loginAndFetch } = userStore
+        loginAndFetch({ email: emailRef.val,  password: passwordRef.val }).then(resp => {
+          // token
+          console.log(resp)
+          router.push('/')
+        })
       }
     }
 

@@ -7,7 +7,12 @@ class LocalStorage {
   get(key: string) {
     const value = localStorage.getItem(key);
     if (value) {
-      return JSON.parse(value);
+      try {
+        return JSON.parse(value);
+      } catch (e) {
+        console.error(`无法解析存储在${key}中的值： ${e}`);
+        return null;
+      }
     }
   }
 

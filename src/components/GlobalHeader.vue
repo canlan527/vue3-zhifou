@@ -8,7 +8,7 @@
       </ul>
       <ul v-else class="list-inline mb-0 me-4">
         <li class="list-inline-item">
-          <Dropdown :title="user.name">
+          <Dropdown v-if="user.nickName" :title="user.nickName">
             <DropdownItem>
               <router-link to="/create" class="dropdown-item">新建文章</router-link>
             </DropdownItem>

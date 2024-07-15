@@ -13,7 +13,7 @@ const request = new XNRequest({
   // } as AxiosRequestHeaders,
   interceptors: {
     requestInterceptor: (config) => {
-      const token = localstorage.get("token");
+      const token = localstorage.get("token") || "";
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

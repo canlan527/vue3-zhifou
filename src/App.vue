@@ -7,7 +7,7 @@
   <Footer />
 </template>
 <script setup lang="ts">
-import { defineComponent, reactive, computed, watchEffect, ref } from 'vue';
+import { defineComponent, reactive, computed, watchEffect, ref, onMounted } from 'vue';
 import GlobalHeader from './components/GlobalHeader.vue';
 import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
@@ -18,7 +18,13 @@ import { storeToRefs } from 'pinia';
 import { useGlobalStore } from './stores/global';
 
 const userStore = useUserStore();
-const { user } = storeToRefs(userStore);
+const { user, token } = storeToRefs(userStore);
+const { fetchCurrentUser } = userStore;
+onMounted(() => {
+  if(!user.value.isLogin && token.value) {
+    fetchCurrentUser();
+  }
+})
 
 const globalStore = useGlobalStore();
 const { loading } = storeToRefs(globalStore);
