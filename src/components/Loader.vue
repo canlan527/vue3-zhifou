@@ -15,6 +15,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, onUnmounted } from 'vue'
+import { useDOMCreate } from '@/hooks/useDOMCreate'
 
 export default defineComponent({
   name: 'Loader',
@@ -28,14 +29,7 @@ export default defineComponent({
   },
   setup() {
     // 创建loader节点
-    const loader = document.createElement('div')
-    loader.id = 'loader'
-    document.body.appendChild(loader)
-
-    // 卸载loader节点
-    onUnmounted(() => {
-      document.body.removeChild(loader)
-    })
+    useDOMCreate('loader')
   }
 })
 </script>
