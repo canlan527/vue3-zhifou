@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from "pinia";
 
+// 全局错误提示类型
 export interface GlobalErrorProps {
   status: boolean;
   message?: string;

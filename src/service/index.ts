@@ -36,8 +36,13 @@ const request = new XNRequest({
 
       return res.data
     },
-    responseInterceptorCatch: (error) => {
-      return error
+    responseInterceptorCatch: (e) => {
+      const globalStore = useGlobalStore();
+      const { setError, setLoading } = globalStore;
+      const { error } = e.response.data;
+      setError(true, error);
+      setLoading(false);
+      return Promise.reject(error)
     }
   },
 })
