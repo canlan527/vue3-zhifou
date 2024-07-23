@@ -19,8 +19,9 @@ const request = new XNRequest({
       }
       // loading
       const globalStore = useGlobalStore();
-      const { setLoading } = globalStore;
+      const { setLoading, setError } = globalStore;
       setLoading(true);
+      setError(false, "")
       return config;
     },
     requestInterceptorCatch: (error) => {

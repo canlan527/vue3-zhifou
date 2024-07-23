@@ -22,6 +22,7 @@ import ValidateForm from '@/components/ValidateForm.vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import createMessage from '@/components/createMessage';
 // import { login } from '@/service/user/user';
 
 export default defineComponent({
@@ -65,8 +66,11 @@ export default defineComponent({
         const { loginAndFetch } = userStore
         loginAndFetch({ email: emailRef.val,  password: passwordRef.val }).then(resp => {
           // token
-          console.log(resp)
-          router.push('/')
+          createMessage('success', '登录成功，正在跳转到首页')
+          // 跳转到首页
+          setTimeout(() => {
+            router.push('/')
+          }, 2000)
         })
       }
     }
