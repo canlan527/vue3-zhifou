@@ -27,7 +27,7 @@ export const useUserStore = defineStore('user', () => {
     isLogin: false,
   })
   let token = ref(localstorage.get('token') || '')
-
+  // 登录
   async function fetchUserLogin(data: ILoginParams) {
     const res = await login(data)
     if (res.code === 0) {
@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
       localstorage.set('token', token)
     }
   }
-
+  // 获取当前用户信息
   async function fetchCurrentUser() {
     const res = await getUserInfo()
     // console.log(res)
@@ -45,16 +45,24 @@ export const useUserStore = defineStore('user', () => {
       user.value = { isLogin: true, ...res.data }
     }
   }
-
+  // 登录并获取用户信息
   async function loginAndFetch(data: ILoginParams) {
     return await fetchUserLogin(data).then(async () => {
       return await fetchCurrentUser()
     })
   }
-
+  // 注册
   async function signup(data: IRegisterParams) {
     const res = await register(data)
     console.log(res)
+  }
+
+  // 登出 
+   const logout = async () => {
+    // 清除用户信息
+    user.value = { isLogin: false }
+    token.value = ''
+    localstorage.remove('token')  
   }
 
   return {
@@ -63,5 +71,6 @@ export const useUserStore = defineStore('user', () => {
     fetchCurrentUser,
     loginAndFetch,
     signup,
+    logout,
   }
 })

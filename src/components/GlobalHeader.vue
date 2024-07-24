@@ -15,7 +15,7 @@
             <DropdownItem disabled>
               <a href="#" class="dropdown-item">编辑资料</a>
             </DropdownItem>
-            <DropdownItem>
+            <DropdownItem @click.prevent="handleLogout">
               <a href="#" class="dropdown-item">退出登录</a>
             </DropdownItem>
           </Dropdown>
@@ -29,6 +29,7 @@ import { defineComponent, type PropType } from 'vue'
 import Dropdown from './Dropdown.vue'
 import DropdownItem from './DropdownItem.vue'
 import { type UserProps, useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router';
 
 // export interface UserProps {
 //   isLogin: boolean
@@ -49,10 +50,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-   
-    return {
-      
+    const userStore = useUserStore()
+    const router = useRouter()
 
+    const handleLogout = () => {
+      userStore.logout().then(() => {
+        router.push('/')
+      })
+    }
+    return {
+      handleLogout
     }
   }
 })

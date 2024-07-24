@@ -1,6 +1,6 @@
 <template>
-  <div class="dropdown" ref="dropdownRef">
-    <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">你好，{{ title }}</a>
+  <div class="dropdown" ref="dropdownRef" @click.prevent="toggleOpen">
+    <a href="#" class="btn btn-outline-light my-2 dropdown-toggle">你好，{{ title }}</a>
     <ul class="dropdown-menu" :style="{ display: 'block' }" v-if="isOpen">
       <slot></slot>
     </ul>
@@ -21,21 +21,14 @@ export default defineComponent({
   setup() {
     const isOpen = ref(false)
     const toggleOpen = () => {
-      isOpen.value = !isOpen.value
+      isOpen.value =!isOpen.value
     }
     const dropdownRef = ref<HTMLElement | null>(null)
     
     const { isClickOutside } = useClickOutside(dropdownRef)
-    // 1.Watch
-    // watch(isClickOutside, (value) => {
-    //   if (value) {
-    //     isOpen.value = false
-    //   }
-    // })
-    // 2.watchEffect
-    watchEffect(() => {
-      if(isClickOutside.value) {
-        console.log(isOpen.value)
+    // 1.监听isClickOutside，如果点击了外部，则关闭dropdown
+    watch(isClickOutside, (value) => {
+      if (value) {
         isOpen.value = false
       }
     })
