@@ -66,7 +66,7 @@ export default defineComponent({
         const { loginAndFetch } = userStore
         loginAndFetch({ email: emailRef.val,  password: passwordRef.val }).then(resp => {
           // token
-          createMessage('success', '登录成功，正在跳转到首页')
+          createMessage('success', '登录成功，正在跳转到首页', 1000)
           // 跳转到首页
           setTimeout(() => {
             router.push('/')

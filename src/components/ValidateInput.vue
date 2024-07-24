@@ -17,10 +17,11 @@ import { emitter } from './ValidateForm.vue'
 const emailReg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 const passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
 
-interface RuleProp {
-  type: 'required' | 'email' | 'minLength' | 'maxLength' | 'password'
+export interface RuleProp {
+  type: 'required' | 'email' | 'minLength' | 'maxLength' | 'password' | 'custom'
   message: string
   value?: number
+  validator?: () => boolean
 }
 
 export type RulesProp = RuleProp[]
@@ -78,6 +79,10 @@ export default defineComponent({
               break;
             case 'minLength':
               passed = val.length >= rule.value!
+              inputRef.message = rule.message
+              break;
+            case 'custom':
+              passed = rule.validator ? rule.validator() : true
               inputRef.message = rule.message
               break;
             default:

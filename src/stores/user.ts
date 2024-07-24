@@ -1,8 +1,8 @@
 import { defineStore } from "pinia"
 import type { ImageProps } from "./utils"
 import { ref } from "vue"
-import { getUserInfo, login } from "@/service/user/user"
-import type { ILoginParams } from "@/service/user/type"
+import { getUserInfo, login, register } from "@/service/user/user"
+import type { ILoginParams, IRegisterParams } from "@/service/user/type"
 import localstorage from '@/utils/storage'
 
 export interface UserDataProps {
@@ -39,7 +39,7 @@ export const useUserStore = defineStore('user', () => {
 
   async function fetchCurrentUser() {
     const res = await getUserInfo()
-    console.log(res)
+    // console.log(res)
     if (res.code === 0) {
       // 保存用户信息
       user.value = { isLogin: true, ...res.data }
@@ -52,10 +52,16 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
+  async function signup(data: IRegisterParams) {
+    const res = await register(data)
+    console.log(res)
+  }
+
   return {
     user,
     token,
     fetchCurrentUser,
     loginAndFetch,
+    signup,
   }
 })
