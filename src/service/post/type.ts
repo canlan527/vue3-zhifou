@@ -48,3 +48,9 @@ export interface IUpdatePostData {
   content: string
   image: string
 }
+
+export interface IPostParams{
+  title: string
+  content: string
+  column: string
+}
